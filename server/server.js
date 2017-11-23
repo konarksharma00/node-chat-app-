@@ -16,12 +16,23 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('some where')
 
+    var newMessageData= {
+        from:"human",
+        text:"i created you"
+    }
+
+    socket.emit('newMessage',newMessageData)
+
+    socket.on('createMessage', (messageData)=>{
+        console.log(messageData)
+    })
+
     socket.on('disconnect',()=>{
         console.log(' server disconnected')
     })
 });
 
 server.listen(port,()=>{
-    console.log('server is running on port' + port)
+    console.log('server is running on port ' + port)
 })
 
