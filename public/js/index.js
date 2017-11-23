@@ -5,7 +5,6 @@ socket.on('connect',function(){
         from:'god',
         text:'you die'
     }
-    socket.emit('createMessage', createMailData)
 })
 
 socket.on('disconnect',function(){

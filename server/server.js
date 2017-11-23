@@ -15,16 +15,15 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
     console.log('some where')
-
-    var newMessageData= {
-        from:"human",
-        text:"i created you"
-    }
-
-    socket.emit('newMessage',newMessageData)
-
+    
     socket.on('createMessage', (messageData)=>{
         console.log(messageData)
+
+        io.emit('newMessage',{
+            from:messageData.from,
+            text:messageData.text,
+            createdAt:new Date().getTime()
+        })
     })
 
     socket.on('disconnect',()=>{
