@@ -44,7 +44,7 @@ jQuery('#message-form').on('submit', function(e){
 var locbtn = jQuery('#send-location');
 
 locbtn.on('click', function(){
-    if(navigator.geolocation){
+    if(!navigator.geolocation){
         return alert('you are fucked');
     }
 
