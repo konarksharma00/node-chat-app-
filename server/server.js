@@ -4,6 +4,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 const {generateMessage} = require('./utils/message');
+const {isRealString} = require('./utils/validation');
 const {generateLocationMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
 
@@ -21,6 +22,14 @@ io.on('connection', (socket) => {
     socket.emit('newMessage' ,generateMessage('Admin','chat app'))
 
     socket.broadcast.emit('newMessage',generateMessage('Admin','new user'));
+
+    socket.on('join', (params, callback) => {
+        if (!isRealString(params.name) || !isRealString(params.room)) {
+          callback('Name and room name are required.');
+        }
+    
+        callback();
+      });
 
     socket.on('createMessage', (messageData, callback)=>{
         io.emit('newMessage',generateMessage(messageData.from, messageData.text))
