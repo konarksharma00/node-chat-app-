@@ -33,12 +33,14 @@ socket.on('newLocationMessage', function(message){
 jQuery('#message-form').on('submit', function(e){
     e.preventDefault()
 
-    socket.emit('createMessage',{
-        from:'user',
-        text:jQuery('[name=message]').val()
-    }, function(){
-
-    })
+    var messageTextbox = jQuery('[name=message]');
+    
+      socket.emit('createMessage', {
+        from: 'User',
+        text: messageTextbox.val()
+      }, function () {
+        messageTextbox.val('')
+      });
 })
 
 var locbtn = jQuery('#send-location');
@@ -48,14 +50,17 @@ locbtn.on('click', function(){
         return alert('you are fucked');
     }
 
-    navigator.geolocation.getCurrentPosition(function(position){
+    locbtn.attr('disabled', 'disabled').text('Sending location...');
 
+    navigator.geolocation.getCurrentPosition(function(position){
+        locbtn.removeAttr('disabled').text('Send location');
         console.log(position)
         socket.emit('locationGiven', {
             latitude : position.coords.latitude,
             longitude : position.coords.longitude
         });
     },function(){
+        locbtn.removeAttr('disabled').text('Send location');
         alert('you are so fucked.')
     })
 
