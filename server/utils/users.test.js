@@ -33,7 +33,7 @@ describe('Users', () => {
 
     expect(users.users).toEqual([user]);
   });
-
+// something new
   it('should remove a user', () => {
     var userId = '1';
     var user = users.removeUser(userId);
